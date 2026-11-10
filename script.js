@@ -29,7 +29,15 @@ const members = [
     experience: ["React Developer Intern — May 2025 to October 2025. Worked on live web projects, responsive interfaces and interactive applications."],
     skills: ["HTML", "CSS", "JavaScript", "React.js", "Next.js", "Node.js", "MongoDB", "TypeScript", "Express.js", "Redis", "RTK Query"],
     interests: ["Web development", "Software engineering", "Problem solving", "Cricket", "Virat Kohli"],
-    projects: ["KnowledgebleHub — online learning platform"], links: []
+    projects: ["KnowledgebleHub — online learning platform"],
+    links: [
+      { name: "LinkedIn", url: "https://www.linkedin.com/in/pranjal-shukla-68253a226/" },
+      { name: "GitHub", url: "https://github.com/pranjalshukla0" }
+    ],
+    socialLinks: {
+      "linkedin": "https://www.linkedin.com/in/pranjal-shukla-68253a226/",
+      "github": "https://github.com/pranjalshukla0"
+    }
   },
   {
     id: "adarsh", number: "04", name: "Adarsh Prajapati", initials: "AP", photo: "Adarsh-headshot.png", label: "THE LO-FI LOOP",
@@ -97,7 +105,15 @@ function showMember(person) {
     section("SKILLS & TOOLKIT", person.skills, true), section("CURRENTLY LEARNING", person.learning, true),
     section("INTERESTS", person.interests), section("PROJECTS & EXPLORATIONS", person.projects)
   ].join("");
-  const links = (person.links || []).map(link => `<a class="detail-social" href="${safe(link.url)}" target="_blank" rel="noopener">${safe(link.name)} ↗</a>`).join("");
+  const personLinks = (person.links && person.links.length)
+    ? person.links
+    : person.socialLinks
+      ? Object.entries(person.socialLinks).filter(([_, url]) => Boolean(url)).map(([k, url]) => ({
+          name: k === "github" ? "GitHub" : k === "linkedin" ? "LinkedIn" : k.charAt(0).toUpperCase() + k.slice(1),
+          url
+        }))
+      : [];
+  const links = personLinks.map(link => `<a class="detail-social" href="${safe(link.url)}" target="_blank" rel="noopener">${safe(link.name)} ↗</a>`).join("");
   openModal(`<div class="member-modal-layout"><div class="modal-portrait-wrap">${portrait(person, "modal-portrait")}</div>
     <div class="modal-detail-copy"><span class="mono modal-kicker">${person.number} / MEMBER PROFILE</span>
     <h2 id="modalTitle">${safe(person.name)}</h2><p class="modal-role">${safe(person.role)}</p>
